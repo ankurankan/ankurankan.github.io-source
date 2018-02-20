@@ -6,7 +6,7 @@
         <meta name="author" content="Ankur Ankan">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
-        <title>Bayesian Learning, Python and Random Thoughts - Tags | Bayesian Learning, Python and Random Thoughts</title>
+        <title>Importing data in Google Colaboratory | Bayesian Learning, Python and Random Thoughts</title>
 
 	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 	<link rel="icon" href="/favicon.ico" type="image/x-icon">
@@ -424,8 +424,150 @@ article .meta a.comments_btn:hover {
         </header>
 
         <div id="wrap">
-    <h1>Tags for Bayesian Learning, Python and Random Thoughts</h1>        <li><a href="http://ankurankan.github.io/tag/data.html">Data</a> (1)</li>
-        <li><a href="http://ankurankan.github.io/tag/google-colaboratory.html">Google-Colaboratory</a> (1)</li>
+<div class="container post">
+    <article>
+        <header>
+            <h1>Importing data in Google Colaboratory</h1>
+            <time datetime="article.date.isoformat()" pubdate>di 20 februari 2018</time>
+        </header>
+
+        <div class="article_content">
+            <p><a href="https://colab.research.google.com/">Google Colaboratory</a> is a Jupyter Notebook enviornment that doesn't require any setup and completely runs in the cloud.
+The notebooks are stored on Google Drive, so it can be easily shared. Over all of this, one of the major selling points is that they are giving 
+free computation on GPUs for upto 12 hours in a single session. And because of all these reason, I have been writing all my python code on Google Colab for 
+the last couple of weeks. But one of the major issues I faced was importing data to the notebook. Since the intances are created on the fly, the data 
+gets deleted once the notebook is closed, so we need to keep on transferring it again and again and there isn't a simple way to transfer data unless you 
+have your data hosted somewhere where you can use something like <code>wget</code>.</p>
+<p>So, I compiled a list of ways to import data to Google Colab:</p>
+<h2>Using wget</h2>
+<p>The Google Colab machines are built on Debian based linux, therefore the simplest way for downloading data is <code>wget</code> or your faviorite tool for 
+downloading data.</p>
+<div class="highlight"><pre><span></span>wget url_to_data
+</pre></div>
+
+
+<h2>Using google.colab python module</h2>
+<p>Google Colaboratory provided a python module <code>google.colab</code> with some utility tools, one of which is transfering files from/to your local system.</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">google.colab</span> <span class="kn">import</span> <span class="n">files</span>
+<span class="n">files</span><span class="o">.</span><span class="n">upload</span><span class="p">()</span>
+</pre></div>
+
+
+<p>This creates a button using which you can select the files you want to upload. But in my experience till now, this is the worst way since the 
+upload was super slow (Took me more than 2 minutes to upload 30 MBs) and no it wasn't my internet. And I couldn't exactly figure out any 
+possible reasons for the upload to be so slow.</p>
+<h2>Mount google drive using google-drive-ocamlfuse</h2>
+<p>Another possible option is to use google drive to store your data and mount your google drive on the machine using <code>google-drive-ocamlfuse</code>.</p>
+<p>Installing <code>google-drive-ocamlfuse</code>:</p>
+<div class="highlight"><pre><span></span><span class="sx">!apt-get install -y -qq software-properties-common python-software-properties module-init-tools</span>
+<span class="sx">!add-apt-repository -y ppa:alessandro-strada/ppa 2&gt;&amp;1 &gt; /dev/null</span>
+<span class="sx">!apt-get update -qq 2&gt;&amp;1 &gt; /dev/null</span>
+<span class="sx">!apt-get -y install -qq google-drive-ocamlfuse fuse</span>
+</pre></div>
+
+
+<p>Authenticate and get credentials:</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">google.colab</span> <span class="kn">import</span> <span class="n">auth</span>
+<span class="n">auth</span><span class="o">.</span><span class="n">authenticate_user</span><span class="p">()</span>
+<span class="kn">from</span> <span class="nn">oauth2client.client</span> <span class="kn">import</span> <span class="n">GoogleCredentials</span>
+<span class="n">creds</span> <span class="o">=</span> <span class="n">GoogleCredentials</span><span class="o">.</span><span class="n">get_application_default</span><span class="p">()</span>
+</pre></div>
+
+
+<p>Setting up <code>google-drive-ocamlfuse</code>:</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">getpass</span>
+<span class="err">!</span><span class="n">google</span><span class="o">-</span><span class="n">drive</span><span class="o">-</span><span class="n">ocamlfuse</span> <span class="o">-</span><span class="n">headless</span> <span class="o">-</span><span class="nb">id</span><span class="o">=</span><span class="p">{</span><span class="n">creds</span><span class="o">.</span><span class="n">client_id</span><span class="p">}</span> <span class="o">-</span><span class="n">secret</span><span class="o">=</span><span class="p">{</span><span class="n">creds</span><span class="o">.</span><span class="n">client_secret</span><span class="p">}</span> <span class="o">&lt;</span> <span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">null</span> <span class="mi">2</span><span class="o">&gt;&amp;</span><span class="mi">1</span> <span class="o">|</span> <span class="n">grep</span> <span class="n">URL</span>
+<span class="n">vcode</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">()</span>
+<span class="err">!</span><span class="n">echo</span> <span class="p">{</span><span class="n">vcode</span><span class="p">}</span> <span class="o">|</span> <span class="n">google</span><span class="o">-</span><span class="n">drive</span><span class="o">-</span><span class="n">ocamlfuse</span> <span class="o">-</span><span class="n">headless</span> <span class="o">-</span><span class="nb">id</span><span class="o">=</span><span class="p">{</span><span class="n">creds</span><span class="o">.</span><span class="n">client_id</span><span class="p">}</span> <span class="o">-</span><span class="n">secret</span><span class="o">=</span><span class="p">{</span><span class="n">creds</span><span class="o">.</span><span class="n">client_secret</span><span class="p">}</span>
+</pre></div>
+
+
+<p>And then you can finally mount your google drive:</p>
+<div class="highlight"><pre><span></span><span class="sx">!mkdir gdrive</span>
+<span class="sx">!google-drive-ocamlfuse gdrive</span>
+<span class="sx">!ls gdrive</span>
+</pre></div>
+
+
+<h2>Getting data from google cloud storage using gsutil</h2>
+<p>Alternatively you can download data from google cloud storage. 
+Start by authenticating the user:</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">google.colab</span> <span class="kn">import</span> <span class="n">auth</span>
+<span class="n">auth</span><span class="o">.</span><span class="n">authenticate_user</span><span class="p">()</span>
+</pre></div>
+
+
+<p>And set the project and download data:</p>
+<div class="highlight"><pre><span></span>project_id = &#39;Your_project_ID_here&#39;
+
+# Download the file.
+!gsutil cp gs://{bucket_name}/{filename} {download_dir}
+</pre></div>
+
+
+<p>Another possible option is to mount the bucket using <a href="https://cloud.google.com/storage/docs/gcs-fuse">Cloud Storage Fuse</a> but good luck setting the right permissions to access data :P.</p>
+        </div>
+
+        <div class="meta">
+            <div>
+                    <a href="http://ankurankan.github.io/tag/data.html" class="tag">Data</a>
+                    <a href="http://ankurankan.github.io/tag/google-colaboratory.html" class="tag">Google-Colaboratory</a>
+            </div>
+        </div>
+    </article>
+
+
+</div>
+
+<style type="text/css">
+{
+    max-width: 700px;
+}
+
+.text_cell .prompt {
+    display: none;
+}
+
+div.cell {
+    padding: 0;
+}
+
+div.text_cell_render {
+    padding: 0;
+}
+
+div.prompt {
+    font-size: 13px;
+}
+
+div.input_prompt {
+    padding: .7em 0.2em;
+}
+
+div.output_prompt {
+    padding: .4em .2em;
+}
+
+div.input_area {
+    margin: .2em 0.4em;
+    max-width: 580px;
+}
+
+table.dataframe {
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    line-height: 20px;
+}
+
+table.dataframe th, td {
+    padding: 4px;
+    text-align: left;
+}
+
+pre code {
+    background-color: inherit;
+}</style>
+
         </div>
 <!--
     <footer>

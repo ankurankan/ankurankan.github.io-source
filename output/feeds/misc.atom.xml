@@ -1,5 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Bayesian Learning, Python and Random Thoughts - misc</title><link href="http://ankurankan.github.io/" rel="alternate"></link><link href="http://ankurankan.github.io/feeds/misc.atom.xml" rel="self"></link><id>http://ankurankan.github.io/</id><updated>2014-10-11T08:39:00+02:00</updated><entry><title>Guessing Number of Clusters in Data</title><link href="http://ankurankan.github.io/guessing-number-of-clusters-in-data.html" rel="alternate"></link><published>2014-10-11T08:39:00+02:00</published><updated>2014-10-11T08:39:00+02:00</updated><author><name>Ankur Ankan</name></author><id>tag:ankurankan.github.io,2014-10-11:/guessing-number-of-clusters-in-data.html</id><summary type="html">&lt;p&gt;I will start with stating a way to guess the number of clusters and then prove it.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Bayesian Learning, Python and Random Thoughts - misc</title><link href="http://ankurankan.github.io/" rel="alternate"></link><link href="http://ankurankan.github.io/feeds/misc.atom.xml" rel="self"></link><id>http://ankurankan.github.io/</id><updated>2018-02-20T00:00:00+01:00</updated><entry><title>Importing data in Google Colaboratory</title><link href="http://ankurankan.github.io/importing-data-in-google-colab.html" rel="alternate"></link><published>2018-02-20T00:00:00+01:00</published><updated>2018-02-20T00:00:00+01:00</updated><author><name>Ankur Ankan</name></author><id>tag:ankurankan.github.io,2018-02-20:/importing-data-in-google-colab.html</id><summary type="html">&lt;p&gt;&lt;a href="https://colab.research.google.com/"&gt;Google Colaboratory&lt;/a&gt; is a Jupyter Notebook enviornment that doesn't require any setup and completely runs in the cloud.
+The notebooks are stored on Google Drive, so it can be easily shared. Over all of this, one of the major selling points is that they are giving 
+free computation on GPUs …&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;a href="https://colab.research.google.com/"&gt;Google Colaboratory&lt;/a&gt; is a Jupyter Notebook enviornment that doesn't require any setup and completely runs in the cloud.
+The notebooks are stored on Google Drive, so it can be easily shared. Over all of this, one of the major selling points is that they are giving 
+free computation on GPUs for upto 12 hours in a single session. And because of all these reason, I have been writing all my python code on Google Colab for 
+the last couple of weeks. But one of the major issues I faced was importing data to the notebook. Since the intances are created on the fly, the data 
+gets deleted once the notebook is closed, so we need to keep on transferring it again and again and there isn't a simple way to transfer data unless you 
+have your data hosted somewhere where you can use something like &lt;code&gt;wget&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;So, I compiled a list of ways to import data to Google Colab:&lt;/p&gt;
+&lt;h2&gt;Using wget&lt;/h2&gt;
+&lt;p&gt;The Google Colab machines are built on Debian based linux, therefore the simplest way for downloading data is &lt;code&gt;wget&lt;/code&gt; or your faviorite tool for 
+downloading data.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;wget url_to_data
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Using google.colab python module&lt;/h2&gt;
+&lt;p&gt;Google Colaboratory provided a python module &lt;code&gt;google.colab&lt;/code&gt; with some utility tools, one of which is transfering files from/to your local system.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;google.colab&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;files&lt;/span&gt;
+&lt;span class="n"&gt;files&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;upload&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;This creates a button using which you can select the files you want to upload. But in my experience till now, this is the worst way since the 
+upload was super slow (Took me more than 2 minutes to upload 30 MBs) and no it wasn't my internet. And I couldn't exactly figure out any 
+possible reasons for the upload to be so slow.&lt;/p&gt;
+&lt;h2&gt;Mount google drive using google-drive-ocamlfuse&lt;/h2&gt;
+&lt;p&gt;Another possible option is to use google drive to store your data and mount your google drive on the machine using &lt;code&gt;google-drive-ocamlfuse&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Installing &lt;code&gt;google-drive-ocamlfuse&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="sx"&gt;!apt-get install -y -qq software-properties-common python-software-properties module-init-tools&lt;/span&gt;
+&lt;span class="sx"&gt;!add-apt-repository -y ppa:alessandro-strada/ppa 2&amp;gt;&amp;amp;1 &amp;gt; /dev/null&lt;/span&gt;
+&lt;span class="sx"&gt;!apt-get update -qq 2&amp;gt;&amp;amp;1 &amp;gt; /dev/null&lt;/span&gt;
+&lt;span class="sx"&gt;!apt-get -y install -qq google-drive-ocamlfuse fuse&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Authenticate and get credentials:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;google.colab&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;auth&lt;/span&gt;
+&lt;span class="n"&gt;auth&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;authenticate_user&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;oauth2client.client&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;GoogleCredentials&lt;/span&gt;
+&lt;span class="n"&gt;creds&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;GoogleCredentials&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_application_default&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Setting up &lt;code&gt;google-drive-ocamlfuse&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;getpass&lt;/span&gt;
+&lt;span class="err"&gt;!&lt;/span&gt;&lt;span class="n"&gt;google&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;drive&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;ocamlfuse&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;headless&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="nb"&gt;id&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;creds&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;client_id&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;secret&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;creds&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;client_secret&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;dev&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;null&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;amp;&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="n"&gt;grep&lt;/span&gt; &lt;span class="n"&gt;URL&lt;/span&gt;
+&lt;span class="n"&gt;vcode&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;getpass&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getpass&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="err"&gt;!&lt;/span&gt;&lt;span class="n"&gt;echo&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;vcode&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="n"&gt;google&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;drive&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;ocamlfuse&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;headless&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="nb"&gt;id&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;creds&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;client_id&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;secret&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;creds&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;client_secret&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;And then you can finally mount your google drive:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="sx"&gt;!mkdir gdrive&lt;/span&gt;
+&lt;span class="sx"&gt;!google-drive-ocamlfuse gdrive&lt;/span&gt;
+&lt;span class="sx"&gt;!ls gdrive&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Getting data from google cloud storage using gsutil&lt;/h2&gt;
+&lt;p&gt;Alternatively you can download data from google cloud storage. 
+Start by authenticating the user:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;google.colab&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;auth&lt;/span&gt;
+&lt;span class="n"&gt;auth&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;authenticate_user&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;And set the project and download data:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;project_id = &amp;#39;Your_project_ID_here&amp;#39;
+
+# Download the file.
+!gsutil cp gs://{bucket_name}/{filename} {download_dir}
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Another possible option is to mount the bucket using &lt;a href="https://cloud.google.com/storage/docs/gcs-fuse"&gt;Cloud Storage Fuse&lt;/a&gt; but good luck setting the right permissions to access data :P.&lt;/p&gt;</content><category term="Data"></category><category term="Google-Colaboratory"></category></entry><entry><title>Guessing Number of Clusters in Data</title><link href="http://ankurankan.github.io/guessing-number-of-clusters-in-data.html" rel="alternate"></link><published>2014-10-11T08:39:00+02:00</published><updated>2014-10-11T08:39:00+02:00</updated><author><name>Ankur Ankan</name></author><id>tag:ankurankan.github.io,2014-10-11:/guessing-number-of-clusters-in-data.html</id><summary type="html">&lt;p&gt;I will start with stating a way to guess the number of clusters and then prove it.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Plot the total error (sum of distance between point and its cluster centre) vs number of clusters.
 The point where the slope of this curve changes very steeply is the number of clusters …&lt;/pre&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;I will start with stating a way to guess the number of clusters and then prove it.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Plot the total error (sum of distance between point and its cluster centre) vs number of clusters.
