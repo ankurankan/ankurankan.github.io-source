@@ -1,6 +1,6 @@
 # Source for http://ankurankan.github.io
 
-This repository contains the source for http://ankurankan.github.io/.
+This repository contains the source for http://ankurankan.github.io/. Adapted from http://jakevdp.github.io/
 
 ## Building the Blog
 
