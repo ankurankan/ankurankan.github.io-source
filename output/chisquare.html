@@ -6,7 +6,7 @@
         <meta name="author" content="Ankur Ankan">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
-        <title>Custom Exceptions in python | Bayesian Learning, Python and Random Thoughts</title>
+        <title>Test | Bayesian Learning, Python and Random Thoughts</title>
 
 	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 	<link rel="icon" href="/favicon.ico" type="image/x-icon">
@@ -427,107 +427,18 @@ article .meta a.comments_btn:hover {
 <div class="container post">
     <article>
         <header>
-            <h1>Custom Exceptions in python</h1>
-            <time datetime="article.date.isoformat()" pubdate>Tue 03 June 2014</time>
+            <h1>Test</h1>
+            <time datetime="article.date.isoformat()" pubdate>Thu 30 January 2020</time>
         </header>
 
         <div class="article_content">
-            <p>While writing tests we often need to compare objects defined by
-us and we then have to compare each attribute of the object one
-by one.</p>
-<p>Let's take an example of a simple <code>Car</code> class. The Car object has
-two attributes <code>speed</code> and <code>color</code>.</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Car</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">speed</span><span class="p">,</span> <span class="n">color</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">speed</span> <span class="o">=</span> <span class="n">speed</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="n">color</span>
-</code></pre></div>
-
-
-<p>So if you try writing test for it using <code>unittest.TestCase.AssertEqual</code>
-method.</p>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">unittest</span>
-
-<span class="k">class</span> <span class="nc">TestCar</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">test_car_equal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-       <span class="n">car1</span> <span class="o">=</span> <span class="n">Car</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">)</span>
-       <span class="n">car2</span> <span class="o">=</span> <span class="n">Car</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">)</span>
-       <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">car1</span><span class="p">,</span> <span class="n">car2</span><span class="p">)</span> 
-</code></pre></div>
-
-
-<p>If you now try to run this test, the test case will fail.</p>
-<div class="highlight"><pre><span></span><code>    <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">Car</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">),</span> <span class="n">Car</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">))</span>
-<span class="ne">AssertionError</span><span class="p">:</span> <span class="o">&lt;</span><span class="k">assert</span><span class="o">.</span><span class="n">Car</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7f8edbc078d0</span><span class="o">&gt;</span> <span class="o">!=</span> <span class="o">&lt;</span><span class="k">assert</span><span class="o">.</span><span class="n">Car</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7f8edbc07908</span><span class="o">&gt;</span>
-</code></pre></div>
-
-
-<p>This is because unittest doesn't know how to compare two <code>Car</code> objects.</p>
-<p>So, we have a two options to make this work:<br>
-1. We can define a <code>__eq__</code> method in <code>Car</code> class.<br>
-2. We can create a custom assertion class.  </p>
-<h3>1. <code>__eq__</code> method</h3>
-<p><code>__eq__</code> is one of the rich comparison methods. Whenever <code>==</code> is used on any object
-its <code>__eq__</code> method is called. For example <code>car1 == car2</code> internally calls <code>car1.__eq__(car2)</code>.</p>
-<p>Our new car class:</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Car</span><span class="p">:</span>
-   <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">speed</span><span class="p">,</span> <span class="n">color</span><span class="p">):</span>
-      <span class="bp">self</span><span class="o">.</span><span class="n">speed</span> <span class="o">=</span> <span class="n">speed</span>
-      <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="n">color</span>
-
-   <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">another_car</span><span class="p">):</span>
-       <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">==</span><span class="nb">type</span><span class="p">(</span><span class="n">another_car</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">speed</span><span class="o">==</span><span class="n">another_car</span><span class="o">.</span><span class="n">speed</span> <span class="ow">and</span>
-               <span class="bp">self</span><span class="o">.</span><span class="n">color</span><span class="o">==</span><span class="n">another_car</span><span class="o">.</span><span class="n">color</span><span class="p">:</span>
-           <span class="k">return</span> <span class="kc">True</span>
-        <span class="k">else</span><span class="p">:</span>
-           <span class="k">return</span> <span class="kc">False</span>
-</code></pre></div>
-
-
-<p>And now the same test passes. But when <code>car1</code> is not equal to <code>car2</code>, the test fails
-and the output is not at all informative about why the test failed. It simply prints:</p>
-<div class="highlight"><pre><span></span><code><span class="err">    self.assertEqual(car1, car2)</span>
-<span class="c">AssertionError: &lt;Car object at 0x7f1f86af6a20&gt; != &lt;Car object at 0x7f1f86af6a58&gt;</span>
-</code></pre></div>
-
-
-<p>So, one drawback of this approach is that we can't show some message about why the 
-equality failed. Showing an error message by printing it wouldn't be a good design
-because when the user does a simple <code>car1 == car2</code> and if they are not equal, <code>__eq__</code>
-would still print the details of why they are not equal.</p>
-<p>Now, we see the second approach in which we can give a detailed message about why 
-the equality failed.</p>
-<h3>2. Custom assertion class</h3>
-<p>We can write a custom assertion class for out <code>car</code> class.</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">AssertCarEqual</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">assert_car_equal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">car1</span><span class="p">,</span> <span class="n">car2</span><span class="p">):</span>
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">car1</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">type</span><span class="p">(</span><span class="n">car2</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s2">&quot;car1 is of type: &quot;</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">car1</span><span class="p">),</span> <span class="s2">&quot; and car2 is of type: &quot;</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">car2</span><span class="p">))</span>
-        <span class="k">elif</span> <span class="n">car1</span><span class="o">.</span><span class="n">speed</span> <span class="o">!=</span> <span class="n">car2</span><span class="o">.</span><span class="n">speed</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s2">&quot;speed of car1: &quot;</span><span class="p">,</span> <span class="n">car1</span><span class="o">.</span><span class="n">speed</span><span class="p">,</span> <span class="s2">&quot; and speed of car2: &quot;</span><span class="p">,</span> <span class="n">car2</span><span class="o">.</span><span class="n">speed</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">car1</span><span class="o">.</span><span class="n">color</span> <span class="o">!=</span> <span class="n">car2</span><span class="o">.</span><span class="n">color</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s2">&quot;color of car1: &quot;</span><span class="p">,</span> <span class="n">car1</span><span class="o">.</span><span class="n">color</span><span class="p">,</span> <span class="s2">&quot; and color of car2: &quot;</span><span class="p">,</span> <span class="n">car2</span><span class="o">.</span><span class="n">color</span><span class="p">)</span>
-</code></pre></div>
-
-
-<p>And modifying the test like this:</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">TestCar</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">,</span> <span class="n">AssertCarEqual</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">test_car_equal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">car1</span> <span class="o">=</span> <span class="n">car</span><span class="o">.</span><span class="n">Car</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">)</span>
-        <span class="n">car2</span> <span class="o">=</span> <span class="n">car</span><span class="o">.</span><span class="n">Car</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assert_car_equal</span><span class="p">(</span><span class="n">car1</span><span class="p">,</span><span class="n">car2</span><span class="p">)</span>
-</code></pre></div>
-
-
-<p>Now when we run the test, the test fails and gives a message about
-why the test failed.</p>
-<div class="highlight"><pre><span></span><code><span class="err">    raise AssertionError(&quot;color of car1: &quot;, car1.color, &quot; and color of car2: &quot;, car2.color)</span>
-<span class="c">AssertionError: (&#39;color of car1: &#39;, &#39;blue&#39;, &#39; and color of car2: &#39;, &#39;red&#39;)</span>
-</code></pre></div>
+            <p><a href="https://colab.research.google.com/">Google Colaboratory</a> is a Jupyter Notebook enviornment that doesn't require any setup and completely runs in the cloud.</p>
         </div>
 
         <div class="meta">
             <div>
+                    <a href="./tag/chi-square.html" class="tag">chi-square</a>
+                    <a href="./tag/test.html" class="tag">test</a>
             </div>
         </div>
     </article>
