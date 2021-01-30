@@ -417,7 +417,7 @@ article .meta a.comments_btn:hover {
                 <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation" id="theNavbar">
 		    <ul class="nav navbar-nav navbar-right">
                             <li><a href="/archives.html" title="Archive">Archive</a></li>
-                            <li><a class="nodec icon-rss" href="/None" title="jakevdp.github.io RSS feed" rel="me"></a></li>
+                            <li><a class="nodec icon-rss" href="/feeds/all.atom.xml" title="jakevdp.github.io RSS feed" rel="me"></a></li>
                     </ul>
                 </nav>
             </div>
@@ -428,7 +428,7 @@ article .meta a.comments_btn:hover {
     <article>
         <header>
             <h1>Custom Exceptions in python</h1>
-            <time datetime="article.date.isoformat()" pubdate>di 03 juni 2014</time>
+            <time datetime="article.date.isoformat()" pubdate>Tue 03 June 2014</time>
         </header>
 
         <div class="article_content">
@@ -437,29 +437,29 @@ us and we then have to compare each attribute of the object one
 by one.</p>
 <p>Let's take an example of a simple <code>Car</code> class. The Car object has
 two attributes <code>speed</code> and <code>color</code>.</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Car</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Car</span><span class="p">:</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">speed</span><span class="p">,</span> <span class="n">color</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">speed</span> <span class="o">=</span> <span class="n">speed</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="n">color</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>So if you try writing test for it using <code>unittest.TestCase.AssertEqual</code>
 method.</p>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">unittest</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">unittest</span>
 
 <span class="k">class</span> <span class="nc">TestCar</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">test_car_equal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
        <span class="n">car1</span> <span class="o">=</span> <span class="n">Car</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">)</span>
        <span class="n">car2</span> <span class="o">=</span> <span class="n">Car</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">)</span>
        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">car1</span><span class="p">,</span> <span class="n">car2</span><span class="p">)</span> 
-</pre></div>
+</code></pre></div>
 
 
 <p>If you now try to run this test, the test case will fail.</p>
-<div class="highlight"><pre><span></span>    <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">Car</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">),</span> <span class="n">Car</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">))</span>
+<div class="highlight"><pre><span></span><code>    <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">Car</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">),</span> <span class="n">Car</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">))</span>
 <span class="ne">AssertionError</span><span class="p">:</span> <span class="o">&lt;</span><span class="k">assert</span><span class="o">.</span><span class="n">Car</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7f8edbc078d0</span><span class="o">&gt;</span> <span class="o">!=</span> <span class="o">&lt;</span><span class="k">assert</span><span class="o">.</span><span class="n">Car</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7f8edbc07908</span><span class="o">&gt;</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>This is because unittest doesn't know how to compare two <code>Car</code> objects.</p>
@@ -470,7 +470,7 @@ method.</p>
 <p><code>__eq__</code> is one of the rich comparison methods. Whenever <code>==</code> is used on any object
 its <code>__eq__</code> method is called. For example <code>car1 == car2</code> internally calls <code>car1.__eq__(car2)</code>.</p>
 <p>Our new car class:</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Car</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Car</span><span class="p">:</span>
    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">speed</span><span class="p">,</span> <span class="n">color</span><span class="p">):</span>
       <span class="bp">self</span><span class="o">.</span><span class="n">speed</span> <span class="o">=</span> <span class="n">speed</span>
       <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="n">color</span>
@@ -478,17 +478,17 @@ its <code>__eq__</code> method is called. For example <code>car1 == car2</code> 
    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">another_car</span><span class="p">):</span>
        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">==</span><span class="nb">type</span><span class="p">(</span><span class="n">another_car</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">speed</span><span class="o">==</span><span class="n">another_car</span><span class="o">.</span><span class="n">speed</span> <span class="ow">and</span>
                <span class="bp">self</span><span class="o">.</span><span class="n">color</span><span class="o">==</span><span class="n">another_car</span><span class="o">.</span><span class="n">color</span><span class="p">:</span>
-           <span class="k">return</span> <span class="bp">True</span>
+           <span class="k">return</span> <span class="kc">True</span>
         <span class="k">else</span><span class="p">:</span>
-           <span class="k">return</span> <span class="bp">False</span>
-</pre></div>
+           <span class="k">return</span> <span class="kc">False</span>
+</code></pre></div>
 
 
 <p>And now the same test passes. But when <code>car1</code> is not equal to <code>car2</code>, the test fails
 and the output is not at all informative about why the test failed. It simply prints:</p>
-<div class="highlight"><pre><span></span>    self.assertEqual(car1, car2)
-AssertionError: &lt;Car object at 0x7f1f86af6a20&gt; != &lt;Car object at 0x7f1f86af6a58&gt;
-</pre></div>
+<div class="highlight"><pre><span></span><code><span class="err">    self.assertEqual(car1, car2)</span>
+<span class="c">AssertionError: &lt;Car object at 0x7f1f86af6a20&gt; != &lt;Car object at 0x7f1f86af6a58&gt;</span>
+</code></pre></div>
 
 
 <p>So, one drawback of this approach is that we can't show some message about why the 
@@ -499,7 +499,7 @@ would still print the details of why they are not equal.</p>
 the equality failed.</p>
 <h3>2. Custom assertion class</h3>
 <p>We can write a custom assertion class for out <code>car</code> class.</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">AssertCarEqual</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">AssertCarEqual</span><span class="p">:</span>
     <span class="k">def</span> <span class="nf">assert_car_equal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">car1</span><span class="p">,</span> <span class="n">car2</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">car1</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">type</span><span class="p">(</span><span class="n">car2</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s2">&quot;car1 is of type: &quot;</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">car1</span><span class="p">),</span> <span class="s2">&quot; and car2 is of type: &quot;</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">car2</span><span class="p">))</span>
@@ -507,23 +507,23 @@ the equality failed.</p>
             <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s2">&quot;speed of car1: &quot;</span><span class="p">,</span> <span class="n">car1</span><span class="o">.</span><span class="n">speed</span><span class="p">,</span> <span class="s2">&quot; and speed of car2: &quot;</span><span class="p">,</span> <span class="n">car2</span><span class="o">.</span><span class="n">speed</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">car1</span><span class="o">.</span><span class="n">color</span> <span class="o">!=</span> <span class="n">car2</span><span class="o">.</span><span class="n">color</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s2">&quot;color of car1: &quot;</span><span class="p">,</span> <span class="n">car1</span><span class="o">.</span><span class="n">color</span><span class="p">,</span> <span class="s2">&quot; and color of car2: &quot;</span><span class="p">,</span> <span class="n">car2</span><span class="o">.</span><span class="n">color</span><span class="p">)</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>And modifying the test like this:</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TestCar</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">,</span> <span class="n">AssertCarEqual</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">TestCar</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">,</span> <span class="n">AssertCarEqual</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">test_car_equal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">car1</span> <span class="o">=</span> <span class="n">car</span><span class="o">.</span><span class="n">Car</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">)</span>
         <span class="n">car2</span> <span class="o">=</span> <span class="n">car</span><span class="o">.</span><span class="n">Car</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assert_car_equal</span><span class="p">(</span><span class="n">car1</span><span class="p">,</span><span class="n">car2</span><span class="p">)</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>Now when we run the test, the test fails and gives a message about
 why the test failed.</p>
-<div class="highlight"><pre><span></span>    raise AssertionError(&quot;color of car1: &quot;, car1.color, &quot; and color of car2: &quot;, car2.color)
-AssertionError: (&#39;color of car1: &#39;, &#39;blue&#39;, &#39; and color of car2: &#39;, &#39;red&#39;)
-</pre></div>
+<div class="highlight"><pre><span></span><code><span class="err">    raise AssertionError(&quot;color of car1: &quot;, car1.color, &quot; and color of car2: &quot;, car2.color)</span>
+<span class="c">AssertionError: (&#39;color of car1: &#39;, &#39;blue&#39;, &#39; and color of car2: &#39;, &#39;red&#39;)</span>
+</code></pre></div>
         </div>
 
         <div class="meta">
@@ -594,5 +594,23 @@ pre code {
       </p>
     </footer>
 -->
+    <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-44861589-1']);
+    _gaq.push(['_trackPageview']);
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-44861589-1');
+    ga('send', 'pageview');
+</script>
     </body>
 </html>

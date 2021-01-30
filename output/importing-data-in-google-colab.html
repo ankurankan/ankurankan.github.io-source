@@ -417,7 +417,7 @@ article .meta a.comments_btn:hover {
                 <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation" id="theNavbar">
 		    <ul class="nav navbar-nav navbar-right">
                             <li><a href="/archives.html" title="Archive">Archive</a></li>
-                            <li><a class="nodec icon-rss" href="/None" title="jakevdp.github.io RSS feed" rel="me"></a></li>
+                            <li><a class="nodec icon-rss" href="/feeds/all.atom.xml" title="jakevdp.github.io RSS feed" rel="me"></a></li>
                     </ul>
                 </nav>
             </div>
@@ -428,7 +428,7 @@ article .meta a.comments_btn:hover {
     <article>
         <header>
             <h1>Importing data in Google Colaboratory</h1>
-            <time datetime="article.date.isoformat()" pubdate>di 20 februari 2018</time>
+            <time datetime="article.date.isoformat()" pubdate>Tue 20 February 2018</time>
         </header>
 
         <div class="article_content">
@@ -442,15 +442,15 @@ have your data hosted somewhere where you can use something like <code>wget</cod
 <h2>Using wget</h2>
 <p>The Google Colab machines are built on Debian based linux, therefore the simplest way for downloading data is <code>wget</code> or your faviorite tool for 
 downloading data.</p>
-<div class="highlight"><pre><span></span>wget url_to_data
-</pre></div>
+<div class="highlight"><pre><span></span><code><span class="err">wget url_to_data</span>
+</code></pre></div>
 
 
 <h2>Using google.colab python module</h2>
 <p>Google Colaboratory provided a python module <code>google.colab</code> with some utility tools, one of which is transfering files from/to your local system.</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">google.colab</span> <span class="kn">import</span> <span class="n">files</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">google.colab</span> <span class="kn">import</span> <span class="n">files</span>
 <span class="n">files</span><span class="o">.</span><span class="n">upload</span><span class="p">()</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>This creates a button using which you can select the files you want to upload. But in my experience till now, this is the worst way since the 
@@ -459,50 +459,50 @@ possible reasons for the upload to be so slow.</p>
 <h2>Mount google drive using google-drive-ocamlfuse</h2>
 <p>Another possible option is to use google drive to store your data and mount your google drive on the machine using <code>google-drive-ocamlfuse</code>.</p>
 <p>Installing <code>google-drive-ocamlfuse</code>:</p>
-<div class="highlight"><pre><span></span><span class="sx">!apt-get install -y -qq software-properties-common python-software-properties module-init-tools</span>
+<div class="highlight"><pre><span></span><code><span class="sx">!apt-get install -y -qq software-properties-common python-software-properties module-init-tools</span>
 <span class="sx">!add-apt-repository -y ppa:alessandro-strada/ppa 2&gt;&amp;1 &gt; /dev/null</span>
 <span class="sx">!apt-get update -qq 2&gt;&amp;1 &gt; /dev/null</span>
 <span class="sx">!apt-get -y install -qq google-drive-ocamlfuse fuse</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>Authenticate and get credentials:</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">google.colab</span> <span class="kn">import</span> <span class="n">auth</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">google.colab</span> <span class="kn">import</span> <span class="n">auth</span>
 <span class="n">auth</span><span class="o">.</span><span class="n">authenticate_user</span><span class="p">()</span>
 <span class="kn">from</span> <span class="nn">oauth2client.client</span> <span class="kn">import</span> <span class="n">GoogleCredentials</span>
 <span class="n">creds</span> <span class="o">=</span> <span class="n">GoogleCredentials</span><span class="o">.</span><span class="n">get_application_default</span><span class="p">()</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>Setting up <code>google-drive-ocamlfuse</code>:</p>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">getpass</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">getpass</span>
 <span class="err">!</span><span class="n">google</span><span class="o">-</span><span class="n">drive</span><span class="o">-</span><span class="n">ocamlfuse</span> <span class="o">-</span><span class="n">headless</span> <span class="o">-</span><span class="nb">id</span><span class="o">=</span><span class="p">{</span><span class="n">creds</span><span class="o">.</span><span class="n">client_id</span><span class="p">}</span> <span class="o">-</span><span class="n">secret</span><span class="o">=</span><span class="p">{</span><span class="n">creds</span><span class="o">.</span><span class="n">client_secret</span><span class="p">}</span> <span class="o">&lt;</span> <span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">null</span> <span class="mi">2</span><span class="o">&gt;&amp;</span><span class="mi">1</span> <span class="o">|</span> <span class="n">grep</span> <span class="n">URL</span>
 <span class="n">vcode</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">()</span>
 <span class="err">!</span><span class="n">echo</span> <span class="p">{</span><span class="n">vcode</span><span class="p">}</span> <span class="o">|</span> <span class="n">google</span><span class="o">-</span><span class="n">drive</span><span class="o">-</span><span class="n">ocamlfuse</span> <span class="o">-</span><span class="n">headless</span> <span class="o">-</span><span class="nb">id</span><span class="o">=</span><span class="p">{</span><span class="n">creds</span><span class="o">.</span><span class="n">client_id</span><span class="p">}</span> <span class="o">-</span><span class="n">secret</span><span class="o">=</span><span class="p">{</span><span class="n">creds</span><span class="o">.</span><span class="n">client_secret</span><span class="p">}</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>And then you can finally mount your google drive:</p>
-<div class="highlight"><pre><span></span><span class="sx">!mkdir gdrive</span>
+<div class="highlight"><pre><span></span><code><span class="sx">!mkdir gdrive</span>
 <span class="sx">!google-drive-ocamlfuse gdrive</span>
 <span class="sx">!ls gdrive</span>
-</pre></div>
+</code></pre></div>
 
 
 <h2>Getting data from google cloud storage using gsutil</h2>
 <p>Alternatively you can download data from google cloud storage. 
 Start by authenticating the user:</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">google.colab</span> <span class="kn">import</span> <span class="n">auth</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">google.colab</span> <span class="kn">import</span> <span class="n">auth</span>
 <span class="n">auth</span><span class="o">.</span><span class="n">authenticate_user</span><span class="p">()</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>And set the project and download data:</p>
-<div class="highlight"><pre><span></span>project_id = &#39;Your_project_ID_here&#39;
+<div class="highlight"><pre><span></span><code><span class="n">project_id</span> <span class="p">=</span> <span class="s">&#39;Your_project_ID_here&#39;</span>
 
-# Download the file.
-!gsutil cp gs://{bucket_name}/{filename} {download_dir}
-</pre></div>
+# <span class="n">Download</span> <span class="n">the</span> <span class="n">file</span><span class="p">.</span>
+<span class="sx">!gsutil cp gs://{bucket_name}/{filename} {download_dir}</span>
+</code></pre></div>
 
 
 <p>Another possible option is to mount the bucket using <a href="https://cloud.google.com/storage/docs/gcs-fuse">Cloud Storage Fuse</a> but good luck setting the right permissions to access data :P.</p>
@@ -510,8 +510,8 @@ Start by authenticating the user:</p>
 
         <div class="meta">
             <div>
-                    <a href="./tag/data.html" class="tag">Data</a>
-                    <a href="./tag/google-colaboratory.html" class="tag">Google-Colaboratory</a>
+                    <a href="http://ankurankan.github.io/tag/data.html" class="tag">Data</a>
+                    <a href="http://ankurankan.github.io/tag/google-colaboratory.html" class="tag">Google-Colaboratory</a>
             </div>
         </div>
     </article>
@@ -578,5 +578,23 @@ pre code {
       </p>
     </footer>
 -->
+    <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-44861589-1']);
+    _gaq.push(['_trackPageview']);
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-44861589-1');
+    ga('send', 'pageview');
+</script>
     </body>
 </html>
