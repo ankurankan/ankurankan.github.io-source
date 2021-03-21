@@ -6,11 +6,11 @@
         <meta name="author" content="Ankur Ankan">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
-        <title>Guessing Number of Clusters in Data | Bayesian Learning, Python and Random Thoughts</title>
+        <title>Guessing Number of Clusters in Data | Random Thoughts</title>
 
 	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 	<link rel="icon" href="/favicon.ico" type="image/x-icon">
-        <link rel="alternate" type="application/atom+xml" title="Bayesian Learning, Python and Random Thoughts blog atom feed" href="/feeds/all.atom.xml" />
+        <link rel="alternate" type="application/atom+xml" title="Random Thoughts blog atom feed" href="/feeds/all.atom.xml" />
         <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700' rel='stylesheet' type='text/css'>
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -412,7 +412,7 @@ article .meta a.comments_btn:hover {
 		    <span class="icon-bar"></span>
 		    <span class="icon-bar"></span> 
 		  </button>
-                  <a class="navbar-brand" href="/" title="Home" class="title">Bayesian Learning, Python and Random Thoughts</a>
+                  <a class="navbar-brand" href="/" title="Home" class="title">Random Thoughts</a>
                 </div>
                 <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation" id="theNavbar">
 		    <ul class="nav navbar-nav navbar-right">
@@ -428,7 +428,7 @@ article .meta a.comments_btn:hover {
     <article>
         <header>
             <h1>Guessing Number of Clusters in Data</h1>
-            <time datetime="article.date.isoformat()" pubdate>Sat 11 October 2014</time>
+            <time datetime="article.date.isoformat()" pubdate>za 11 oktober 2014</time>
         </header>
 
         <div class="article_content">
@@ -436,7 +436,6 @@ article .meta a.comments_btn:hover {
 <div class="highlight"><pre><span></span><code><span class="err">Plot the total error (sum of distance between point and its cluster centre) vs number of clusters.</span>
 <span class="err">The point where the slope of this curve changes very steeply is the number of clusters in the data.</span>
 </code></pre></div>
-
 
 <p>Now I will prove my point. Let's write a few functions to calculating error and plotting them.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -446,7 +445,6 @@ article .meta a.comments_btn:hover {
         <span class="n">error</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">point_index</span><span class="p">]</span> <span class="o">-</span> <span class="n">cluster_centers</span><span class="p">[</span><span class="n">predicted_cluster</span><span class="p">[</span><span class="n">point_index</span><span class="p">]])</span>
     <span class="k">return</span> <span class="n">error</span>
 </code></pre></div>
-
 
 <p>Another function to plot the <code>total_error</code> vs <code>number of clusters</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">sklearn.cluster</span> <span class="kn">import</span> <span class="n">KMeans</span>
@@ -461,19 +459,16 @@ article .meta a.comments_btn:hover {
     <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_clusters</span><span class="p">),</span> <span class="n">err_arr</span><span class="p">)</span>
 </code></pre></div>
 
-
 <p>Now let's generate some data:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">make_blobs</span>
 <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">make_blobs</span><span class="p">(</span><span class="n">centers</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">cluster_std</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
 </code></pre></div>
-
 
 <p>I have created clusters with very less standard deviation because this shows things most clearly.
 I will later disscuss with clusters having high deviation.
 Let's plot this:</p>
 <div class="highlight"><pre><span></span><code><span class="n">error_vs_cluster</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 </code></pre></div>
-
 
 <p>You can clearly see here that there's a steep change in the slope at <code>3</code> which is the number of clusters
  in our data.</p>
@@ -484,14 +479,12 @@ After the perfect fit (ie 3) when the we try to increase the number of clusters 
 <span class="n">error_vs_cluster</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 </code></pre></div>
 
-
 <p>So now we get a curve where the slope changes slowly and we don't have a very sharp change in the slope
 as we saw in the case when we had data with less standard deviation.</p>
 <p>So, why is this happening?
 Let's plot the data and see:</p>
 <div class="highlight"><pre><span></span><code><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
 </code></pre></div>
-
 
 <p>As we can see here we don't have that clear distinction in the number of clusters. So when we increase the number of clusters from 3 to 4 we can still have a point that would decrease the error term by a 
 good amount.

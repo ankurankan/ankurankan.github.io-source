@@ -3,12 +3,12 @@
 from __future__ import unicode_literals
 
 AUTHOR = 'Ankur Ankan'
-SITENAME = 'Bayesian Learning, Python and Random Thoughts'
+SITENAME = 'Random Thoughts'
 SITEURL = ''
 
 PATH = 'content'
 
-TIMEZONE = 'Europe/Paris'
+TIMEZONE = 'Europe/Amsterdam'
 
 DEFAULT_LANG = 'en'
 

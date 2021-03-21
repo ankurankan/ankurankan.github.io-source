@@ -6,11 +6,11 @@
         <meta name="author" content="Ankur Ankan">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
-        <title>Custom Exceptions in python | Bayesian Learning, Python and Random Thoughts</title>
+        <title>Custom Exceptions in python | Random Thoughts</title>
 
 	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 	<link rel="icon" href="/favicon.ico" type="image/x-icon">
-        <link rel="alternate" type="application/atom+xml" title="Bayesian Learning, Python and Random Thoughts blog atom feed" href="/feeds/all.atom.xml" />
+        <link rel="alternate" type="application/atom+xml" title="Random Thoughts blog atom feed" href="/feeds/all.atom.xml" />
         <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700' rel='stylesheet' type='text/css'>
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -412,7 +412,7 @@ article .meta a.comments_btn:hover {
 		    <span class="icon-bar"></span>
 		    <span class="icon-bar"></span> 
 		  </button>
-                  <a class="navbar-brand" href="/" title="Home" class="title">Bayesian Learning, Python and Random Thoughts</a>
+                  <a class="navbar-brand" href="/" title="Home" class="title">Random Thoughts</a>
                 </div>
                 <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation" id="theNavbar">
 		    <ul class="nav navbar-nav navbar-right">
@@ -428,7 +428,7 @@ article .meta a.comments_btn:hover {
     <article>
         <header>
             <h1>Custom Exceptions in python</h1>
-            <time datetime="article.date.isoformat()" pubdate>Tue 03 June 2014</time>
+            <time datetime="article.date.isoformat()" pubdate>di 03 juni 2014</time>
         </header>
 
         <div class="article_content">
@@ -443,7 +443,6 @@ two attributes <code>speed</code> and <code>color</code>.</p>
         <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="n">color</span>
 </code></pre></div>
 
-
 <p>So if you try writing test for it using <code>unittest.TestCase.AssertEqual</code>
 method.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">unittest</span>
@@ -455,12 +454,10 @@ method.</p>
        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">car1</span><span class="p">,</span> <span class="n">car2</span><span class="p">)</span> 
 </code></pre></div>
 
-
 <p>If you now try to run this test, the test case will fail.</p>
 <div class="highlight"><pre><span></span><code>    <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">Car</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">),</span> <span class="n">Car</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">))</span>
 <span class="ne">AssertionError</span><span class="p">:</span> <span class="o">&lt;</span><span class="k">assert</span><span class="o">.</span><span class="n">Car</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7f8edbc078d0</span><span class="o">&gt;</span> <span class="o">!=</span> <span class="o">&lt;</span><span class="k">assert</span><span class="o">.</span><span class="n">Car</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7f8edbc07908</span><span class="o">&gt;</span>
 </code></pre></div>
-
 
 <p>This is because unittest doesn't know how to compare two <code>Car</code> objects.</p>
 <p>So, we have a two options to make this work:<br>
@@ -483,13 +480,11 @@ its <code>__eq__</code> method is called. For example <code>car1 == car2</code> 
            <span class="k">return</span> <span class="kc">False</span>
 </code></pre></div>
 
-
 <p>And now the same test passes. But when <code>car1</code> is not equal to <code>car2</code>, the test fails
 and the output is not at all informative about why the test failed. It simply prints:</p>
 <div class="highlight"><pre><span></span><code><span class="err">    self.assertEqual(car1, car2)</span>
 <span class="c">AssertionError: &lt;Car object at 0x7f1f86af6a20&gt; != &lt;Car object at 0x7f1f86af6a58&gt;</span>
 </code></pre></div>
-
 
 <p>So, one drawback of this approach is that we can't show some message about why the 
 equality failed. Showing an error message by printing it wouldn't be a good design
@@ -509,7 +504,6 @@ the equality failed.</p>
             <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s2">&quot;color of car1: &quot;</span><span class="p">,</span> <span class="n">car1</span><span class="o">.</span><span class="n">color</span><span class="p">,</span> <span class="s2">&quot; and color of car2: &quot;</span><span class="p">,</span> <span class="n">car2</span><span class="o">.</span><span class="n">color</span><span class="p">)</span>
 </code></pre></div>
 
-
 <p>And modifying the test like this:</p>
 <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">TestCar</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">,</span> <span class="n">AssertCarEqual</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">test_car_equal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -517,7 +511,6 @@ the equality failed.</p>
         <span class="n">car2</span> <span class="o">=</span> <span class="n">car</span><span class="o">.</span><span class="n">Car</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assert_car_equal</span><span class="p">(</span><span class="n">car1</span><span class="p">,</span><span class="n">car2</span><span class="p">)</span>
 </code></pre></div>
-
 
 <p>Now when we run the test, the test fails and gives a message about
 why the test failed.</p>

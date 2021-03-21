@@ -6,11 +6,11 @@
         <meta name="author" content="Ankur Ankan">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
-        <title>Plotting and Animating NetworkX graphs | Bayesian Learning, Python and Random Thoughts</title>
+        <title>Plotting and Animating NetworkX graphs | Random Thoughts</title>
 
 	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 	<link rel="icon" href="/favicon.ico" type="image/x-icon">
-        <link rel="alternate" type="application/atom+xml" title="Bayesian Learning, Python and Random Thoughts blog atom feed" href="/feeds/all.atom.xml" />
+        <link rel="alternate" type="application/atom+xml" title="Random Thoughts blog atom feed" href="/feeds/all.atom.xml" />
         <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700' rel='stylesheet' type='text/css'>
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -412,7 +412,7 @@ article .meta a.comments_btn:hover {
 		    <span class="icon-bar"></span>
 		    <span class="icon-bar"></span> 
 		  </button>
-                  <a class="navbar-brand" href="/" title="Home" class="title">Bayesian Learning, Python and Random Thoughts</a>
+                  <a class="navbar-brand" href="/" title="Home" class="title">Random Thoughts</a>
                 </div>
                 <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation" id="theNavbar">
 		    <ul class="nav navbar-nav navbar-right">
@@ -428,7 +428,7 @@ article .meta a.comments_btn:hover {
     <article>
         <header>
             <h1>Plotting and Animating NetworkX graphs</h1>
-            <time datetime="article.date.isoformat()" pubdate>Fri 11 October 2013</time>
+            <time datetime="article.date.isoformat()" pubdate>vr 11 oktober 2013</time>
         </header>
 
         <div class="article_content">
@@ -442,7 +442,6 @@ article .meta a.comments_btn:hover {
 
 <span class="n">nx</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
 </code></pre></div>
-
 
 <p>In my case I get something like this:</p>
 <p>{% img http://s19.postimg.org/5zl0vjk0j/figure_1.png %}</p>
@@ -477,7 +476,6 @@ Taking a quick look of all the children of the plot.</p>
  <span class="o">&lt;</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">spines</span><span class="o">.</span><span class="n">Spine</span> <span class="n">at</span> <span class="mh">0x303e7d0</span><span class="o">&gt;</span><span class="p">]</span>
 </code></pre></div>
 
-
 <p>Here we see there are 9 <code>matplotlib.text.Text</code> objects which are the labels
 on the nodes. Let's see some of the properties of one of the text objects.</p>
 <div class="highlight"><pre><span></span><code><span class="n">text_object</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">get_children</span><span class="p">()[</span><span class="mi">2</span><span class="p">]</span>
@@ -491,7 +489,6 @@ on the nodes. Let's see some of the properties of one of the text objects.</p>
 <span class="n">text_object</span><span class="o">.</span><span class="n">get_color</span><span class="p">()</span>
 <span class="n">Out</span><span class="p">[</span><span class="mi">15</span><span class="p">]:</span> <span class="s1">&#39;k&#39;</span>
 </code></pre></div>
-
 
 <p>For the complete list of properties we can call the <code>properties</code> method. 
 Example: <code>text_object.properties()</code>.</p>
@@ -515,13 +512,11 @@ and modify them.</p>
 <span class="n">Out</span><span class="p">[</span><span class="mi">29</span><span class="p">]:</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,)</span>
 </code></pre></div>
 
-
 <p>We can change the properties:</p>
 <div class="highlight"><pre><span></span><code><span class="n">nodes</span><span class="o">.</span><span class="n">set_linewidth</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">nodes</span><span class="o">.</span><span class="n">set_pickradius</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
 </code></pre></div>
-
 
 <p>Now with the <code>offsets</code> property we can change the position of the nodes.</p>
 <div class="highlight"><pre><span></span><code><span class="n">In</span> <span class="p">[</span><span class="mi">32</span><span class="p">]:</span> <span class="n">offsets</span> <span class="o">=</span> <span class="n">nodes</span><span class="o">.</span><span class="n">get_offsets</span><span class="p">()</span>
@@ -544,7 +539,6 @@ and modify them.</p>
 
 <span class="n">In</span> <span class="p">[</span><span class="mi">38</span><span class="p">]:</span> <span class="n">plt</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
 </code></pre></div>
-
 
 <p>Now we get this output:
 {% img http://s19.postimg.org/s01dc62oj/figure_2.png %}
@@ -587,7 +581,6 @@ two edges to the new position of their node.</p>
  <span class="p">[</span> <span class="mf">0.30217028</span>  <span class="mf">0.87528811</span><span class="p">]],</span> <span class="kc">None</span><span class="p">)]</span>
 </code></pre></div>
 
-
 <p>We see the 13 edges. The initial position of the moved node was <code>[0.176...  0.     ]</code>
 and we see here that the first and second paths have the starting point at
 that position. So, we need to move the starting point of those two edges
@@ -610,7 +603,6 @@ to <code>[0.5     0.5     ]</code>.</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
 </code></pre></div>
 
-
 <p _="%" http:_s19.postimg.org_3wfnkzqj7_figure_3.png="http://s19.postimg.org/3wfnkzqj7/figure_3.png" img>We can now see the graph to be something like:</p>
 <p>Now let's move the label to this position:</p>
 <div class="highlight"><pre><span></span><code><span class="n">label_object</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">get_children</span><span class="p">()[</span><span class="mi">2</span><span class="p">]</span>
@@ -625,7 +617,6 @@ to <code>[0.5     0.5     ]</code>.</p>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
 </code></pre></div>
-
 
 <p>We can now see the graph to be like:
 {% img http://s19.postimg.org/se7r8vt3n/figure_4.png %}
@@ -663,7 +654,6 @@ animation.</p>
 <span class="n">anim</span> <span class="o">=</span> <span class="n">animation</span><span class="o">.</span><span class="n">FuncAnimation</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">animate</span><span class="p">,</span> <span class="n">frames</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">interval</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">blit</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div>
 
-
 <p>Let's step through and see what's happening. In the first four lines we are 
 importing <code>networkX</code>, <code>matplotlib.animation</code>, <code>matplotlib.pyplot</code> and <code>random</code> 
 modules. </p>
@@ -673,7 +663,6 @@ modules. </p>
 <span class="n">G</span><span class="o">.</span><span class="n">add_edges_from</span><span class="p">([(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">),</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">7</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">7</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">7</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">8</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">9</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">7</span><span class="p">)])</span>
 </code></pre></div>
 
-
 <p>First we initialize an empty graph <code>G</code>. Then we add 9 nodes and 13 edges to it.</p>
 <p>This next piece is the animation function which takes a single parameter <code>i</code>
  which is the frame number of the animation.</p>
@@ -682,13 +671,11 @@ modules. </p>
     <span class="n">nx</span><span class="o">.</span><span class="n">draw_circular</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">node_color</span><span class="o">=</span><span class="p">[</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">9</span><span class="p">)]</span>   
 </code></pre></div>
 
-
 <p>Here the <code>colors</code> list is a list of colors from which we will be randomly 
 picking up colors for our nodes.
 <code>nx.draw_circular</code> draws the graph keeping the nodes in a circular pattern.</p>
 <div class="highlight"><pre><span></span><code><span class="n">anim</span> <span class="o">=</span> <span class="n">animation</span><span class="o">.</span><span class="n">FuncAnimation</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">animate</span><span class="p">,</span> <span class="n">frames</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">interval</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">blit</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div>
-
 
 <p><code>animation.FuncAnimation</code> repeatedly calls the animate fucntion incrementing 
 <code>i</code> in each iteration.
